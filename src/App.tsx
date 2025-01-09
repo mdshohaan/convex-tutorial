@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
 import { faker } from "@faker-js/faker";
+import { useEffect, useState } from "react";
+// Import `useMutation` and `api` from Convex.
 
 // For demo purposes. In a real app, you'd have real user data.
 const NAME = getOrSetFakeName();
@@ -41,6 +42,7 @@ export default function App() {
       <form
         onSubmit={async (e) => {
           e.preventDefault();
+
           alert("Mutation not implemented yet");
           setNewMessageText("");
         }}
