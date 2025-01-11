@@ -1,16 +1,19 @@
 import { faker } from "@faker-js/faker";
+import { useMutation } from "convex/react";
 import { useEffect, useState } from "react";
+import { api } from "../convex/_generated/api";
+// Update your convex/react import like this:
+import { useQuery } from "convex/react";
 // Import `useMutation` and `api` from Convex.
 
 // For demo purposes. In a real app, you'd have real user data.
 const NAME = getOrSetFakeName();
 
 export default function App() {
-  const messages = [
-    { _id: "1", user: "Alice", body: "Good morning!" },
-    { _id: "2", user: NAME, body: "Beautiful sunrise today" },
-  ];
-  // TODO: Add mutation hook here.
+  // Replace the `const messages = ...` line with the following
+  const messages = useQuery(api.chat.getMessages);
+  // Replace the "TODO: Add mutation hook here." with:
+  const sendMessage = useMutation(api.chat.sendMessage);
 
   const [newMessageText, setNewMessageText] = useState("");
 
@@ -43,7 +46,8 @@ export default function App() {
         onSubmit={async (e) => {
           e.preventDefault();
 
-          alert("Mutation not implemented yet");
+          // Replace "alert("Mutation not implemented yet");" with:
+          await sendMessage({ user: NAME, body: newMessageText });
           setNewMessageText("");
         }}
       >

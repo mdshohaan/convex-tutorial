@@ -1,5 +1,19 @@
 import { v } from "convex/values";
-import { mutation } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
+// Update your server import like this:
+
+// ...
+
+// Add the following function to the file:
+export const getMessages = query({
+  args: {},
+  handler: async (ctx) => {
+    // Get most recent messages first
+    const messages = await ctx.db.query("messages").order("desc").take(50);
+    // Reverse the list so that it's in a chronological order.
+    return messages.reverse();
+  },
+});
 
 export const sendMessage = mutation({
   args: {
