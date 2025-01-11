@@ -1,8 +1,22 @@
 import { v } from "convex/values";
-import { mutation, query } from "./_generated/server";
-// Update your server import like this:
+import { internalAction, mutation, query } from "./_generated/server";
 
-// ...
+export const getWikipediaSummary = internalAction({
+  args: { topic: v.string() },
+  handler: async (ctx, args) => {
+    const response = await fetch(
+      "https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro&explaintext&redirects=1&titles=" +
+        args.topic
+    );
+
+    return getSummaryFromJSON(await response.json());
+  },
+});
+
+function getSummaryFromJSON(data: any) {
+  const firstPageId = Object.keys(data.query.pages)[0];
+  return data.query.pages[firstPageId].extract;
+}
 
 // Add the following function to the file:
 export const getMessages = query({
